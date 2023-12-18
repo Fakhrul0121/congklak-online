@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://cquer1psj4t4"]
+
+[ext_resource type="Script" path="res://nodes/scenes/Holes.gd" id="1_miawp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nsnfu"]
+radius = 47.0106
+
+[node name="Holes" type="Area2D" groups=["Holes"]]
+script = ExtResource("1_miawp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_nsnfu")
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 85
+text = "7"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

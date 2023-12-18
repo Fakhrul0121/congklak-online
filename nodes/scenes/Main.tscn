@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://cllovb6aq53cd"]
+
+[ext_resource type="Script" path="res://nodes/scenes/Main.gd" id="1_iodp1"]
+[ext_resource type="Texture2D" uid="uid://3vcp1nv1kahg" path="res://assets/background.png" id="2_nfm8y"]
+
+[node name="Main" type="CanvasLayer"]
+script = ExtResource("1_iodp1")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_nfm8y")
+expand_mode = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -404.0
+offset_top = -190.0
+offset_right = 404.0
+offset_bottom = -113.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="JoinButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "JOIN"
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="HostButton" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "HOST"
+
+[node name="PlayerId" type="Label" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 11.5
+offset_bottom = 94.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.890196, 0.517647, 0.796078, 1)
+theme_override_font_sizes/font_size = 60
+text = "Welcome, "
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -55.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 45
+text = "Loading..."
+horizontal_alignment = 1

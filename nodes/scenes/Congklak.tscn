@@ -1,0 +1,107 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4xr6t08ovav2"]
+
+[ext_resource type="Texture2D" uid="uid://34bryskutvtt" path="res://assets/path_to_your_background_image.png" id="1_334q3"]
+[ext_resource type="Script" path="res://nodes/scenes/Congklak.gd" id="1_g8ql7"]
+[ext_resource type="Texture2D" uid="uid://cttgxcx06vgh" path="res://assets/alatbaru.png" id="2_4j72c"]
+[ext_resource type="PackedScene" uid="uid://cquer1psj4t4" path="res://nodes/scenes/Holes.tscn" id="3_jjfi6"]
+
+[node name="Congklak" type="CanvasLayer"]
+script = ExtResource("1_g8ql7")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_334q3")
+expand_mode = 1
+
+[node name="AlatBantu" type="TextureRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -547.95
+offset_top = -185.25
+offset_right = 547.95
+offset_bottom = 185.25
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_4j72c")
+expand_mode = 1
+
+[node name="Holes" parent="AlatBantu" groups=["Player"] instance=ExtResource("3_jjfi6")]
+position = Vector2(249.95, 246.25)
+
+[node name="Holes2" parent="AlatBantu" groups=["Player"] instance=ExtResource("3_jjfi6")]
+position = Vector2(350.95, 246.25)
+id = 1
+
+[node name="Holes3" parent="AlatBantu" groups=["Player"] instance=ExtResource("3_jjfi6")]
+position = Vector2(452.95, 246.25)
+id = 2
+
+[node name="Holes4" parent="AlatBantu" groups=["Player"] instance=ExtResource("3_jjfi6")]
+position = Vector2(553.95, 246.25)
+id = 3
+
+[node name="Holes5" parent="AlatBantu" groups=["Player"] instance=ExtResource("3_jjfi6")]
+position = Vector2(654.95, 246.25)
+id = 4
+
+[node name="Holes6" parent="AlatBantu" groups=["Player"] instance=ExtResource("3_jjfi6")]
+position = Vector2(756.95, 246.25)
+id = 5
+
+[node name="Holes7" parent="AlatBantu" groups=["Player"] instance=ExtResource("3_jjfi6")]
+position = Vector2(860.95, 246.25)
+id = 6
+
+[node name="Holes8" parent="AlatBantu" groups=["Opponent"] instance=ExtResource("3_jjfi6")]
+position = Vector2(249.95, 124.25)
+id = 6
+
+[node name="Holes9" parent="AlatBantu" groups=["Opponent"] instance=ExtResource("3_jjfi6")]
+position = Vector2(350.95, 124.25)
+id = 5
+
+[node name="Holes10" parent="AlatBantu" groups=["Opponent"] instance=ExtResource("3_jjfi6")]
+position = Vector2(452.95, 124.25)
+id = 4
+
+[node name="Holes11" parent="AlatBantu" groups=["Opponent"] instance=ExtResource("3_jjfi6")]
+position = Vector2(553.95, 124.25)
+id = 3
+
+[node name="Holes12" parent="AlatBantu" groups=["Opponent"] instance=ExtResource("3_jjfi6")]
+position = Vector2(654.95, 124.25)
+id = 2
+
+[node name="Holes13" parent="AlatBantu" groups=["Opponent"] instance=ExtResource("3_jjfi6")]
+position = Vector2(756.95, 124.25)
+id = 1
+
+[node name="Holes14" parent="AlatBantu" groups=["Opponent"] instance=ExtResource("3_jjfi6")]
+position = Vector2(860.95, 124.25)
+
+[node name="HouseOpponent" type="Label" parent="AlatBantu" groups=["House", "Opponent"]]
+layout_mode = 0
+offset_left = 114.95
+offset_top = 122.25
+offset_right = 163.95
+offset_bottom = 238.25
+theme_override_font_sizes/font_size = 85
+text = "0
+"
+
+[node name="HousePlayer" type="Label" parent="AlatBantu" groups=["House", "Player"]]
+layout_mode = 0
+offset_left = 941.95
+offset_top = 119.25
+offset_right = 990.95
+offset_bottom = 235.25
+theme_override_font_sizes/font_size = 85
+text = "0
+"
