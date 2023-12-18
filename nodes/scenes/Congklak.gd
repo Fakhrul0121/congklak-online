@@ -26,7 +26,7 @@ func _ready():
 	check_turn()
 	synchronize_holes()
 
-@rpc("any_peer", "call_local", "unreliable")
+@rpc("any_peer", "call_local")
 func check_turn():
 	if player_id != GameManager.player_turn:
 		print("sit ", player_id)
@@ -45,7 +45,7 @@ func disable_all():
 
 func hole_picked(id_hole_picked):
 	disable_all()
-	GameManager.MoveBeans.rpc(id_hole_picked, player_id)
+	GameManager.MoveBeans(id_hole_picked, player_id)
 	synchronize_holes.rpc()
 	#await get_tree().create_timer(1).timeout
 	
@@ -55,14 +55,14 @@ func hole_picked(id_hole_picked):
 	#if GameManager.check_winner():
 	#	get_tree().change_scene_to_file.rpc("res://nodes/Result.tscn")
 	#	return
-	if player_id != GameManager.player_turn:
-		check_turn.rpc()
+	check_turn.rpc()
 
 @rpc("any_peer", "call_local")
 func synchronize_holes():
 	for hole in holes_player:
 		hole.label.text = str(GameManager.players[player_id]["holes"][hole.id])
+	var opponent_id=GameManager.get_opponent(player_id)
 	for hole in holes_opponent:
-		hole.label.text = str(GameManager.players[GameManager.get_opponent(player_id)]["holes"][hole.id])
-		$AlatBantu/HousePlayer.text = str(GameManager.players[player_id]["house"])
-		$AlatBantu/HouseOpponent.text = str(GameManager.players[GameManager.get_opponent(player_id)]["house"])
+		hole.label.text = str(GameManager.players[opponent_id]["holes"][hole.id])
+	$AlatBantu/HousePlayer.text = str(GameManager.players[player_id]["house"])
+	$AlatBantu/HouseOpponent.text = str(GameManager.players[GameManager.get_opponent(player_id)]["house"])

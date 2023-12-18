@@ -3,7 +3,7 @@ extends Node
 var players = {}
 var player_turn
 
-@rpc("any_peer", "call_local")
+#@rpc("any_peer", "call_local")
 func MoveBeans(hole_picked: int, player_id: int):
 	#code how to move beans
 	#assign player
@@ -38,6 +38,10 @@ func MoveBeans(hole_picked: int, player_id: int):
 	if i != 7:
 		player_turn = get_opponent(player_id)
 
+@rpc("any_peer")
+func sync_player_data():
+	#sync the players data
+	pass
 
 func get_opponent(player_id):
 	var opponent_id

@@ -39,7 +39,7 @@ func SendPlayerInformation(name, id):
 			"name" : name,
 			"id" : id,
 			"house": 0,
-			"holes": [1,1,1,1,1,1,1]
+			"holes": [1,6,1,1,1,1,5]
 		}
 	if multiplayer.is_server():
 		for i in GameManager.players:
