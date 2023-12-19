@@ -32,15 +32,19 @@ func MoveBeans(hole_picked: int, player_id: int):
 		p["holes"][i] = 0
 		fill += o["holes"][abs(i-6)]
 		o["holes"][abs(i-6)] = 0
-		p["house"] = fill
+		p["house"] += fill
 	players[player_id] = p
-	players[get_opponent(player_id)] = o
-	if i != 7:
-		player_turn = get_opponent(player_id)
+	players[o["id"]] = o
+	if (i != 7):
+		player_turn = o["id"]
+	#transfer_players_data.rpc_id(o["id"],self.players,self.player_turn)
 
-@rpc("any_peer")
-func sync_player_data():
-	#sync the players data
+@rpc("any_peer","call_local")
+func transfer_players_data(players, player_turn):
+	#transfer the players data
+	print(player_turn, "tpd")
+	self.players = players
+	self.player_turn = player_turn
 	pass
 
 func get_opponent(player_id):

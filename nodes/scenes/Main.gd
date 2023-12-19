@@ -1,6 +1,10 @@
 extends CanvasLayer
 
 func _ready():
-	
-	$PlayerId.text += ""
+	#PlayerInfo.player_info["email"]
+	var firestore_collection : FirestoreCollection = Firebase.Firestore.collection("userdata")
+	firestore_collection.get_doc(PlayerInfo.player_info["email"])
+	var document : FirestoreDocument = await firestore_collection.get_document
+	print(document)
+	$PlayerId.text += document.doc_fields["username"]
 	pass

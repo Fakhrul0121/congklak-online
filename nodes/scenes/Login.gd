@@ -8,8 +8,8 @@ func _ready():
 	Firebase.Auth.connect("login_failed", _on_FirebaseAuth_login_failed)
 
 func _on_FirebaseAuth_login_succeeded(auth_info: Dictionary):
-	PlayerInfo.player_info = auth_info
 	Firebase.Auth.save_auth(auth_info)
+	PlayerInfo.set_player_info(auth_info)
 	get_tree().change_scene_to_file("res://nodes/scenes/Main.tscn")
 	pass
 	
