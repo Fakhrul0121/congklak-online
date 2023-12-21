@@ -72,3 +72,5 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 45
 text = "Loading..."
 horizontal_alignment = 1
+
+[connection signal="pressed" from="HBoxContainer/HostButton" to="." method="_on_host_button_pressed"]

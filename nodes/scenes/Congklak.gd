@@ -3,13 +3,13 @@ extends CanvasLayer
 var player_id
 var holes_player = []
 var holes_opponent = []
-var turn
+var room_data
 
 func _ready():
+	#get doc
+	room_data = await GameManager.access_doc(GameManager.room_id)
 	#assign id
-	player_id = multiplayer.get_unique_id()
-	#set turn
-	GameManager.player_turn = 1
+	player_id = GameManager.player_id
 	#get holes
 	var holes = get_tree().get_nodes_in_group("Holes")
 	for hole in holes:
@@ -26,7 +26,6 @@ func _ready():
 	check_turn()
 	synchronize_holes()
 
-#@rpc("any_peer", "call_local")
 func check_turn():
 	if player_id != GameManager.player_turn:
 		print("sit ", player_id)
@@ -45,7 +44,7 @@ func disable_all():
 
 func hole_picked(id_hole_picked):
 	GameManager.MoveBeans(id_hole_picked, player_id)
-	synchronize_holes()
+	synchronize_holes.rpc()
 	#await get_tree().create_timer(1).timeout
 	
 	#if GameManager.check_empty():
@@ -56,13 +55,13 @@ func hole_picked(id_hole_picked):
 	#	return
 	if player_id != GameManager.player_turn:
 		print("yay")
-	#	check_turn()
+		check_turn.rpc()
 	else:
 		print("nay")
 
 
 
-#@rpc("any_peer", "call_local")
+@rpc("any_peer", "call_local")
 func synchronize_holes():
 	var opponent_id=GameManager.get_opponent(player_id)
 	for hole in holes_player:

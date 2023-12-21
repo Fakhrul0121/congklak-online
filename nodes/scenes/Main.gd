@@ -8,3 +8,7 @@ func _ready():
 	print(document)
 	$PlayerId.text += document.doc_fields["username"]
 	pass
+
+
+func _on_host_button_pressed():
+	pass # Replace with function body.

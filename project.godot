@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 GameManager="*res://nodes/systems/GameManager.gd"
 Firebase="*res://addons/godot-firebase/firebase/firebase.tscn"
 PlayerInfo="*res://nodes/systems/PlayerInfo.gd"
+DatabaseManager="*res://nodes/systems/DatabaseManager.gd"
 
 [display]
 
