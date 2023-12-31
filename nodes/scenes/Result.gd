@@ -15,4 +15,4 @@ func _ready():
 		title.text = "you're a loser"
 
 func _on_button_pressed():
-	get_tree().change_scene_to_file("res://nodes/MainMenu.tscn")
+	get_tree().change_scene_to_file("res://nodes/MainMenu2.tscn")

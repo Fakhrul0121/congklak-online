@@ -56,7 +56,6 @@ func MoveBeans(hole_picked: int):
 func check_empty():
 	var players = room["players"].keys()
 	for p in players:
-		print(p," ", room["players"][p]["holes"], " check_empty ")
 		if room["players"][p]["holes"][0] == 0 && room["players"][p]["holes"][1] == 0 && room["players"][p]["holes"][2] == 0 && room["players"][p]["holes"][3] == 0 && room["players"][p]["holes"][4] == 0 && room["players"][p]["holes"][5] == 0 && room["players"][p]["holes"][6] == 0:
 			move_opponent_all_to_house(p)
 			return true
@@ -79,14 +78,14 @@ func check_game_over():
 	var players = room["players"].keys()
 	var op_id
 	for p_id in players:
-		print(p_id, " check_game_over")
-		print(max_house)
 		if room["players"][p_id]["house"] >= max_house:
 			print("returning")
 			if p_id == player_id:
 				op_id = opponent_id
 			elif p_id == opponent_id:
 				op_id = player_id
+			if room["players"][p_id]["house"] == max_house && room["players"][op_id]["house"] < max_house:
+				break
 			if room["players"][p_id]["house"] > room["players"][op_id]["house"]:
 				room["players"][p_id]["status"] = "winner"
 				room["players"][op_id]["status"] = "loser"
