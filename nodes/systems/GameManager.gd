@@ -1,26 +1,28 @@
 extends Node
 
-var room_id
-var player_id
-var opponent_id 
-@onready var firestore_collection : FirestoreCollection = Firebase.Firestore.collection('roomdata')
 
+var room_id = null
+var room = {}
+var player_id = null
+var opponent_id = null
+var max_house: int = 0
 
-func access_doc(room_id):
-	var document_task: FirestoreTask = firestore_collection.get_doc(room_id)
-	var document: FirestoreDocument = await document_task.get_document
-	if document != null:
-		return document.doc_fields
-	else:
-		return null
+func set_max_house():
+	for i in room["players"][player_id]["holes"]:
+		max_house += i
 
-func MoveBeans(room_fields: Dictionary,hole_picked: int, player_id: int):
+func get_opponent_id():
+	for p in room.players.keys():
+		if player_id != p:
+			opponent_id = p
+
+func MoveBeans(hole_picked: int):
 	#code how to move beans
 	#assign player
-	var p = room_fields["players"][player_id]
+	var p = room["players"][player_id]
 	var beans_picked = p["holes"][hole_picked]
 	#assign opponent
-	var o = room_fields.get(opponent_id)
+	var o = room["players"][opponent_id]
 	p["holes"][hole_picked] = 0
 	var i = hole_picked + 1
 	while true:
@@ -43,57 +45,56 @@ func MoveBeans(room_fields: Dictionary,hole_picked: int, player_id: int):
 		fill += o["holes"][abs(i-6)]
 		o["holes"][abs(i-6)] = 0
 		p["house"] += fill
-	room_fields["players"][player_id] = p
-	room_fields["players"][opponent_id] = o
+	room["players"][player_id] = p
+	room["players"][opponent_id] = o
+	DatabaseManager.database_reference_room.update("players",{player_id:p,opponent_id:o})
+	await DatabaseManager.database_reference_room.patch_data_update
 	if (i != 7):
-		room_fields["player_turn"] = opponent_id
-	
-#
-#@rpc("any_peer","call_local")
-#func transfer_players_data(players, player_turn):
-	##transfer the players data
-	#print(player_turn, "tpd")
-	#self.players = players
-	#self.player_turn = player_turn
-	#pass
-#
-func get_opponent(player_id):
-	var document = await access_doc(room_id)
-	var opponent_id
-	for key in document["players"].keys():
-		if key != player_id:
-			opponent_id = key
-	return opponent_id
+		room["player_turn"] = opponent_id
+		DatabaseManager.database_reference_room_list.update(room_id,{"player_turn":opponent_id})
 
-#@rpc("any_peer", "call_local")
-#func check_empty():
-	#for p in players:
-		#if p["holes"] == [0,0,0,0,0,0,0]:
-			#move_opponent_all_to_house(p["id"])
-			#return true
-	#return false
-#
-#func move_opponent_all_to_house(player_id):
-	#var opponent_beans = 0
-	#var opponent_id = get_opponent(player_id)
-	#for h in players.get(opponent_id)["holes"]:
-		#opponent_beans += h
-		#h = 0
-	#players.get(opponent_id)["house"] += opponent_beans
-#
-#@rpc("any_peer", "call_local")
-#func check_winner():
-	#for p in players:
-		#if p["house"] > (1*7):
-			#var o = players.get(get_opponent(p["id"]))
-			#if p["house"] > o["house"]:
-				#p["status"] = "winner"
-				#o["status"] = "loser"
-			#elif p["house"] == o["house"]:
-				#p["status"] = "draw"
-				#o["status"] = "draw"
-			#else:
-				#p["status"] = "loser"
-				#o["status"] = "winner"
-			#return true
-	#return false
+func check_empty():
+	var players = room["players"].keys()
+	for p in players:
+		print(p," ", room["players"][p]["holes"], " check_empty ")
+		if room["players"][p]["holes"][0] == 0 && room["players"][p]["holes"][1] == 0 && room["players"][p]["holes"][2] == 0 && room["players"][p]["holes"][3] == 0 && room["players"][p]["holes"][4] == 0 && room["players"][p]["holes"][5] == 0 && room["players"][p]["holes"][6] == 0:
+			move_opponent_all_to_house(p)
+			return true
+	return false
+
+
+func move_opponent_all_to_house(pl_id):
+	var opponent_beans = 0
+	var op_id
+	if pl_id == player_id:
+		op_id = opponent_id
+	elif pl_id == opponent_id:
+		op_id = player_id
+	for h_id in range(room["players"][op_id]["holes"].size()):
+		opponent_beans += room["players"][op_id]["holes"][h_id]
+		room["players"][op_id]["holes"][h_id] = 0
+	room["players"][op_id]["house"] += opponent_beans
+
+func check_game_over():
+	var players = room["players"].keys()
+	var op_id
+	for p_id in players:
+		print(p_id, " check_game_over")
+		print(max_house)
+		if room["players"][p_id]["house"] >= max_house:
+			print("returning")
+			if p_id == player_id:
+				op_id = opponent_id
+			elif p_id == opponent_id:
+				op_id = player_id
+			if room["players"][p_id]["house"] > room["players"][op_id]["house"]:
+				room["players"][p_id]["status"] = "winner"
+				room["players"][op_id]["status"] = "loser"
+			elif room["players"][p_id]["house"] == room["players"][op_id]["house"]:
+				room["players"][p_id]["status"] = "draw"
+				room["players"][op_id]["status"] = "draw"
+			else:
+				room["players"][p_id]["status"] = "loser"
+				room["players"][op_id]["status"] = "winner"
+			return true
+	return false

@@ -5,8 +5,8 @@ var status
 @onready var title = $Title
 
 func _ready():
-	player_id = multiplayer.get_unique_id()
-	status = GameManager.players.get(player_id)["status"]
+	status = GameManager.room["players"][GameManager.player_id]["status"]
+	print(GameManager.room, " result")
 	if status == "winner":
 		title.text = "you win"
 	elif status == "draw":

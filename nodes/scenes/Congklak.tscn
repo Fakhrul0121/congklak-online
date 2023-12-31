@@ -105,3 +105,36 @@ offset_bottom = 235.25
 theme_override_font_sizes/font_size = 85
 text = "0
 "
+
+[node name="Loading" type="Label" parent="."]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -156.0
+offset_bottom = -87.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 50
+text = "Loading"
+horizontal_alignment = 1
+
+[node name="PlayerName" type="Label" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
+
+[node name="OpponentName" type="Label" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 69.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1

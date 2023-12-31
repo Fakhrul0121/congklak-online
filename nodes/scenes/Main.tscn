@@ -1,7 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://cllovb6aq53cd"]
+[gd_scene load_steps=6 format=3 uid="uid://cllovb6aq53cd"]
 
 [ext_resource type="Script" path="res://nodes/scenes/Main.gd" id="1_iodp1"]
 [ext_resource type="Texture2D" uid="uid://3vcp1nv1kahg" path="res://assets/background.png" id="2_nfm8y"]
+
+[sub_resource type="Animation" id="Animation_x56nm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Loading"]
+}
+
+[sub_resource type="Animation" id="Animation_sdv84"]
+resource_name = "loading"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": ["Loading", "Loading.", "Loading..", "Loading..."]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oomk8"]
+_data = {
+"RESET": SubResource("Animation_x56nm"),
+"loading": SubResource("Animation_sdv84")
+}
 
 [node name="Main" type="CanvasLayer"]
 script = ExtResource("1_iodp1")
@@ -33,6 +71,7 @@ alignment = 1
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
+disabled = true
 text = "JOIN"
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
@@ -44,6 +83,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 50
+disabled = true
 text = "HOST"
 
 [node name="PlayerId" type="Label" parent="."]
@@ -70,7 +110,32 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/font_size = 45
-text = "Loading..."
+text = "Loading"
 horizontal_alignment = 1
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Status"]
+libraries = {
+"": SubResource("AnimationLibrary_oomk8")
+}
+
+[node name="CancelButton" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(150, 0)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -156.0
+offset_top = -55.0
+offset_right = -6.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 30
+disabled = true
+text = "Cancel"
+icon_alignment = 1
+
+[connection signal="pressed" from="HBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/HostButton" to="." method="_on_host_button_pressed"]

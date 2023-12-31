@@ -1,9 +1,46 @@
-[gd_scene load_steps=3 format=3 uid="uid://cquer1psj4t4"]
+[gd_scene load_steps=6 format=3 uid="uid://cquer1psj4t4"]
 
 [ext_resource type="Script" path="res://nodes/scenes/Holes.gd" id="1_miawp"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nsnfu"]
 radius = 47.0106
+
+[sub_resource type="Animation" id="Animation_364d4"]
+resource_name = "Fade"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.368627)]
+}
+
+[sub_resource type="Animation" id="Animation_5r1a3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ragtf"]
+_data = {
+"Fade": SubResource("Animation_364d4"),
+"RESET": SubResource("Animation_5r1a3")
+}
 
 [node name="Holes" type="Area2D" groups=["Holes"]]
 script = ExtResource("1_miawp")
@@ -27,6 +64,11 @@ theme_override_font_sizes/font_size = 85
 text = "7"
 horizontal_alignment = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ragtf")
+}
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

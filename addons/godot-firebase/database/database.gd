@@ -53,6 +53,7 @@ func get_database_reference(path : String, filter : Dictionary = {}) -> Firebase
 	firebase_reference.set_pusher(pusher)
 	firebase_reference.set_getter(getter)
 	firebase_reference.set_listener(listener)
+	
 	firebase_reference.set_store(store)
 	add_child(firebase_reference)
 	return firebase_reference
