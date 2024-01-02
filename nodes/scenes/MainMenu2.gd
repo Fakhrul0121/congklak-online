@@ -60,9 +60,9 @@ func _on_host_button_down():
 	button_status(false)
 	DatabaseManager.database_reference_room_list = Firebase.Database.get_database_reference("room", {}) ##for connecting to database
 	GameManager.room_id = DatabaseManager.generate_random_id()
-	var data = {'isFull': false,'time_created':Time.get_datetime_dict_from_system(true), 'isMoved':false, 'player_turn':GameManager.player_id, 'players':{GameManager.player_id:{'name':player_name,'holes':[7,7,7,7,7,7,7],'house':0}}}
-	DatabaseManager.database_reference_room_list.update(GameManager.room_id,data) ##push data
-	GameManager.room = data
+	#var data = {'isFull': false,'time_created':Time.get_datetime_dict_from_system(true), 'isMoved':false, 'player_turn':GameManager.player_id, 'players':{GameManager.player_id:{'name':player_name,'holes':[7,7,7,7,7,7,7],'house':0}}}
+	DatabaseManager.database_reference_room_list.update(GameManager.room_id,{"a":"b"}) ##push data
+	#GameManager.room = data
 	await DatabaseManager.database_reference_room_list.push_successful
 	DatabaseManager.database_reference_room_list.patch_data_update.connect(patch_data_host)
 
@@ -74,3 +74,14 @@ func patch_data_host(data):
 		$Loading.visible_characters = -1
 		await get_tree().create_timer(1).timeout
 		get_tree().change_scene_to_file("res://nodes/scenes/Congklak.tscn")
+
+
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		if GameManager.room_id != null:
+			print("test")
+			var path = ProjectSettings.globalize_path("res://nodes/outside system/delete.py")
+			var python = ProjectSettings.globalize_path("res://nodes/outside system/venv/Scripts/python.exe")
+			var err = OS.execute(python,[path,GameManager.room_id])
+			print(err)
+		get_tree().quit() # default behavior

@@ -13,3 +13,5 @@ func generate_random_id() -> String:
 
 func connect_to_room():
 	database_reference_room = Firebase.Database.get_database_reference("room/%s" % GameManager.room_id, {})
+
+

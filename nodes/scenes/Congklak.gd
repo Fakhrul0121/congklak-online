@@ -15,7 +15,7 @@ func _ready():
 	#set max house
 	GameManager.set_max_house()
 	#get holes
-	var holes = get_tree().get_nodes_in_group("Holes")
+	var holes = get_tree().get_nodes_in_group("Hosles")
 	for hole in holes:
 		#insert to player and opponent list holes
 		if hole.is_in_group("Player"):
