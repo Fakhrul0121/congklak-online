@@ -44,6 +44,7 @@ _data = {
 
 [node name="MainMenu2" type="CanvasLayer"]
 script = ExtResource("1_e3630")
+holes = [0, 0, 0, 0, 0, 0, 1]
 
 [node name="Background" type="TextureRect" parent="."]
 anchors_preset = 15

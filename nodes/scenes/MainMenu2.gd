@@ -36,6 +36,7 @@ func _on_join_button_down():
 
 func new_data_join(data):
 	if data.data != null:
+		print(data)
 		var this_data = data.data
 		GameManager.room_id = data.key
 		GameManager.room = this_data
@@ -60,9 +61,9 @@ func _on_host_button_down():
 	button_status(false)
 	DatabaseManager.database_reference_room_list = Firebase.Database.get_database_reference("room", {}) ##for connecting to database
 	GameManager.room_id = DatabaseManager.generate_random_id()
-	#var data = {'isFull': false,'time_created':Time.get_datetime_dict_from_system(true), 'isMoved':false, 'player_turn':GameManager.player_id, 'players':{GameManager.player_id:{'name':player_name,'holes':[7,7,7,7,7,7,7],'house':0}}}
-	DatabaseManager.database_reference_room_list.update(GameManager.room_id,{"a":"b"}) ##push data
-	#GameManager.room = data
+	var data = {'isFull': false,'time_created':Time.get_datetime_dict_from_system(true), 'isMoved':false, 'player_turn':GameManager.player_id, 'players':{GameManager.player_id:{'name':player_name,'holes':holes,'house':0}}}
+	DatabaseManager.database_reference_room_list.update(GameManager.room_id,data) ##push data
+	GameManager.room = data
 	await DatabaseManager.database_reference_room_list.push_successful
 	DatabaseManager.database_reference_room_list.patch_data_update.connect(patch_data_host)
 
