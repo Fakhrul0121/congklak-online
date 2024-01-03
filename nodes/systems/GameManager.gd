@@ -1,16 +1,28 @@
 extends Node
 
-var players = {}
-var player_turn
 
-@rpc("any_peer", "call_local")
-func MoveBeans(hole_picked: int, player_id: int):
+var room_id = null
+var room = {}
+var player_id = null
+var opponent_id = null
+var max_house: int = 0
+
+func set_max_house():
+	for i in room["players"][player_id]["holes"]:
+		max_house += i
+
+func get_opponent_id():
+	for p in room.players.keys():
+		if player_id != p:
+			opponent_id = p
+
+func MoveBeans(hole_picked: int):
 	#code how to move beans
 	#assign player
-	var p = players.get(player_id)
+	var p = room["players"][player_id]
 	var beans_picked = p["holes"][hole_picked]
 	#assign opponent
-	var o = players.get(get_opponent(player_id))
+	var o = room["players"][opponent_id]
 	p["holes"][hole_picked] = 0
 	var i = hole_picked + 1
 	while true:
@@ -32,49 +44,56 @@ func MoveBeans(hole_picked: int, player_id: int):
 		p["holes"][i] = 0
 		fill += o["holes"][abs(i-6)]
 		o["holes"][abs(i-6)] = 0
-		p["house"] = fill
-	players[player_id] = p
-	players[get_opponent(player_id)] = o
-	if i != 7:
-		player_turn = get_opponent(player_id)
+		p["house"] += fill
+	room["players"][player_id] = p
+	room["players"][opponent_id] = o
+	DatabaseManager.database_reference_room.update("players",{player_id:p,opponent_id:o})
+	await DatabaseManager.database_reference_room.patch_data_update
+	if (i != 7):
+		room["player_turn"] = opponent_id
+		DatabaseManager.database_reference_room_list.update(room_id,{"player_turn":opponent_id})
 
-
-func get_opponent(player_id):
-	var opponent_id
-	for key in players.keys():
-		if key != player_id:
-			opponent_id = key
-	return opponent_id
-
-@rpc("any_peer", "call_local")
 func check_empty():
+	var players = room["players"].keys()
 	for p in players:
-		if p["holes"] == [0,0,0,0,0,0,0]:
-			move_opponent_all_to_house(p["id"])
+		if room["players"][p]["holes"][0] == 0 && room["players"][p]["holes"][1] == 0 && room["players"][p]["holes"][2] == 0 && room["players"][p]["holes"][3] == 0 && room["players"][p]["holes"][4] == 0 && room["players"][p]["holes"][5] == 0 && room["players"][p]["holes"][6] == 0:
+			move_opponent_all_to_house(p)
 			return true
 	return false
 
-func move_opponent_all_to_house(player_id):
-	var opponent_beans = 0
-	var opponent_id = get_opponent(player_id)
-	for h in players.get(opponent_id)["holes"]:
-		opponent_beans += h
-		h = 0
-	players.get(opponent_id)["house"] += opponent_beans
 
-@rpc("any_peer", "call_local")
-func check_winner():
-	for p in players:
-		if p["house"] > (1*7):
-			var o = players.get(get_opponent(p["id"]))
-			if p["house"] > o["house"]:
-				p["status"] = "winner"
-				o["status"] = "loser"
-			elif p["house"] == o["house"]:
-				p["status"] = "draw"
-				o["status"] = "draw"
+func move_opponent_all_to_house(pl_id):
+	var opponent_beans = 0
+	var op_id
+	if pl_id == player_id:
+		op_id = opponent_id
+	elif pl_id == opponent_id:
+		op_id = player_id
+	for h_id in range(room["players"][op_id]["holes"].size()):
+		opponent_beans += room["players"][op_id]["holes"][h_id]
+		room["players"][op_id]["holes"][h_id] = 0
+	room["players"][op_id]["house"] += opponent_beans
+
+func check_game_over():
+	var players = room["players"].keys()
+	var op_id
+	for p_id in players:
+		if room["players"][p_id]["house"] >= max_house:
+			print("returning")
+			if p_id == player_id:
+				op_id = opponent_id
+			elif p_id == opponent_id:
+				op_id = player_id
+			if room["players"][p_id]["house"] == max_house && room["players"][op_id]["house"] < max_house:
+				break
+			if room["players"][p_id]["house"] > room["players"][op_id]["house"]:
+				room["players"][p_id]["status"] = "winner"
+				room["players"][op_id]["status"] = "loser"
+			elif room["players"][p_id]["house"] == room["players"][op_id]["house"]:
+				room["players"][p_id]["status"] = "draw"
+				room["players"][op_id]["status"] = "draw"
 			else:
-				p["status"] = "loser"
-				o["status"] = "winner"
+				room["players"][p_id]["status"] = "loser"
+				room["players"][op_id]["status"] = "winner"
 			return true
 	return false

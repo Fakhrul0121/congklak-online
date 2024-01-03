@@ -1,15 +1,19 @@
 extends CanvasLayer
 
-var player_id
 var holes_player = []
 var holes_opponent = []
-var turn
+var player_turn: bool
 
 func _ready():
-	#assign id
-	player_id = multiplayer.get_unique_id()
-	#set turn
-	GameManager.player_turn = 1
+	#coonect to room
+	DatabaseManager.connect_to_room()
+	DatabaseManager.database_reference_room.patch_data_update.connect(on_received_updated_congklak)
+	GameManager.get_opponent_id()
+	$PlayerName.text = GameManager.room["players"][GameManager.player_id]["name"]
+	$OpponentName.text = GameManager.room["players"][GameManager.opponent_id]["name"]
+	player_turn = GameManager.room["player_turn"] == GameManager.player_id
+	#set max house
+	GameManager.set_max_house()
 	#get holes
 	var holes = get_tree().get_nodes_in_group("Holes")
 	for hole in holes:
@@ -23,46 +27,45 @@ func _ready():
 			hole.disable = true
 	holes_player.sort_custom(func(a, b): return a.id < b.id)
 	holes_opponent.sort_custom(func(a, b): return a.id < b.id)
-	check_turn()
 	synchronize_holes()
+	check_turn()
 
-@rpc("any_peer", "call_local", "unreliable")
-func check_turn():
-	if player_id != GameManager.player_turn:
-		print("sit ", player_id)
-		for hole in holes_player:
-			print(hole, " ", player_id)
-			hole.disable = true
-	else:
-		print("NoSit ", player_id)
-		for hole in holes_player:
-			print(hole, " ", player_id)
-			hole.disable = false
+func on_received_updated_congklak(data):
+	print(data)
+	if data.data:
+		if data.key == "players":
+			GameManager.room[data.key].merge(data.data, true)
+			synchronize_holes()
+		elif data.data.has("player_turn"):
+			player_turn = data.data["player_turn"] == GameManager.player_id
+			GameManager.room.merge(data.data, true)
+			check_turn()
+	##ifs when the game is over
+	GameManager.check_empty()
+	if  GameManager.check_game_over():
+		get_tree().change_scene_to_file("res://nodes/scenes/Result.tscn")
 
 func disable_all():
-	for hole in get_tree().get_nodes_in_group("hole"):
+	for hole in holes_player:
 		hole.disable = true
 
-func hole_picked(id_hole_picked):
+func hole_picked(id_hole_picked,holes):
 	disable_all()
-	GameManager.MoveBeans.rpc(id_hole_picked, player_id)
-	synchronize_holes.rpc()
-	#await get_tree().create_timer(1).timeout
-	
-	#if GameManager.check_empty():
-	#	synchronize_holes.rpc()
-	#	await get_tree().create_timer(1).timeout
-	#if GameManager.check_winner():
-	#	get_tree().change_scene_to_file.rpc("res://nodes/Result.tscn")
-	#	return
-	if player_id != GameManager.player_turn:
-		check_turn.rpc()
+	print("ass", id_hole_picked)
+	$Loading.visible = true
+	await get_tree().create_timer(1).timeout
+	$Loading.visible = false
+	GameManager.MoveBeans(id_hole_picked)
+	synchronize_holes()
 
-@rpc("any_peer", "call_local")
 func synchronize_holes():
 	for hole in holes_player:
-		hole.label.text = str(GameManager.players[player_id]["holes"][hole.id])
+		hole.label.text = str(GameManager.room["players"][GameManager.player_id]["holes"][hole.id])
 	for hole in holes_opponent:
-		hole.label.text = str(GameManager.players[GameManager.get_opponent(player_id)]["holes"][hole.id])
-		$AlatBantu/HousePlayer.text = str(GameManager.players[player_id]["house"])
-		$AlatBantu/HouseOpponent.text = str(GameManager.players[GameManager.get_opponent(player_id)]["house"])
+		hole.label.text = str(GameManager.room["players"][GameManager.opponent_id]["holes"][hole.id])
+	$AlatBantu/HousePlayer.text = str(GameManager.room["players"][GameManager.player_id]["house"])
+	$AlatBantu/HouseOpponent.text = str(GameManager.room["players"][GameManager.opponent_id]["house"])
+
+func check_turn():
+	for hole in holes_player:
+		hole.disable = !player_turn

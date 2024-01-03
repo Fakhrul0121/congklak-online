@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "congklak-online-55fab",
+    "private_key_id": "3086ee9c9ee6f9bed65a406959dcd04c3b47d1b8",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCuKR4nyNGc0WCG\nsvzHwkb9kF6gM8wIjLWnlBXooH5KCAOwvEngkV4OvIHp0quDsQAbVVEX2b7Z03jh\nRtFo6RWU0mLHMJTT+Ihw1UaaAgtiLEYDXvdf2DMzZPrBpGfUKNHoTu3uHc6hiSvd\nhnuRsej+S8ntDA5ZD8L2SegdBB4tyKrSf2H4klcRu4LjhJKoEJM0RygPYmie0kUs\n3q8ijIraLDFYO68YjCLs5uSZyQgyGJUs7sVf7BeaDcy/puP3r/MGgWPHSyHmCPgI\nj5voCEpkE+IjPMYkmlJ9znHXic2tcKm/Hbg2xR1KundwFwK8B/vk0kygY6GfRgd2\na7vr0845AgMBAAECggEAD6LpbjD9gNLbk7xmLZknvoRDuqZr3yii9pS5EtW2APeP\nPULqbxseEryh/VhIxd4SYGHckgOeuvfdlnxBOOYUZfQtoiyecBmURm0flZwxYXMQ\nJiVUmGpUznx2dwRHviicD/tmKUbL0nz6Tz1PwtjyTkKHspyufRiJLIueJ1zDSODh\nag2pQ3GDSM+TF+nqoH1grIcDrrOBaYlD1qE8GPkLBF6q2n2zTRIkYdyX7km3+d3c\neiwdf6MV5rtNixYhZbycbMmOs5QNzDzTddp5ugkyl904EOmkMh4dV8o/WLgJO+Lw\n7cHjjDJgBh38n5nlGgPDwUAEgCgI4qcVDAze8QgxwQKBgQDWFJV+NbQ001oL/YAN\nAEVyAQxgE4PKxUbILA/tvjnxGRu2+g0uzYWD3jA6UOYs4SUP9ByHHSRilmoASed8\nlky9G/jtXLKArXMGg26QU42A9RrotDEk4en6HrWiqcb0Ky59/NLRVE0sulcwb/IH\nfCdbhk+6fCSI2WO8QHsP7E/CdQKBgQDQQ2+TT4nIsMTXKPnLr3NeBzaYZhBidbVe\nue4i7Wjghf6WKZmgXkfR39tOyv1ijnp3eNbIR0eNmqWG6uKJfw87xbno4SpoeWKe\nCt/5znqV38DD6dZUAEhMR8tnJyy/7fnpmMAkZqYMYznpppUzdy6D9TskUf5P0vAO\nKdk4tOTcNQKBgCGUiP6LHgFLRcyrrvJbIImJcI+BgCLGXxv3DWiVdjFDZv2Eq5yz\n0EWnDJmZJwHTLyUZfYAUKijsvyPcc9svGEpxoNJawAU/L9PNugIZmRCpYdcurKbE\naRc6yfMB/ps+SsSoa8k6GAD0GckXRje2WdYZc1glMPXmY6ab1rHgt4IhAoGAB4jZ\nCYhQIM2cYXhfCSpwzw8Nv5e5sgY2KJYrcmIKcE0It+ALaczfZk1l/sTDRASJk7bw\ndlB12z6kDGyFA5pwL6Zoom86/Iqfsb4M+lmo/7EXpT7ZfTKBaxkR18qICO2QJA5d\nrTN1gG86kiRvs2v1Z9rAaAD7ZWHpQ2nqLO4GdZ0CgYEAy6sYFKn9Qoy+wznM1HgR\n6PIu73x8CTzeaEilIoQlblMftw4nGibk4XvpGccil5NCLzrRjO2VdsGjXdJJUY1q\nOxbRYU0SpT7089RaVNVuNZT5WFJMisWzOGYepNHtI0twce/vy9/m0RInLC6eeJEZ\nG/HmtaRp1KuQwbnKhyQIsuE=\n-----END PRIVATE KEY-----\n",
+    "client_email": "firebase-adminsdk-b5s0n@congklak-online-55fab.iam.gserviceaccount.com",
+    "client_id": "108119039753089221922",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-b5s0n%40congklak-online-55fab.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
